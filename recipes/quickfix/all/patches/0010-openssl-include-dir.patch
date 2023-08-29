@@ -1,0 +1,14 @@
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -34,6 +34,11 @@
+ if(HAVE_SSL)
+ # Can set location explicitly, example, cmake -DOPENSSL_ROOT_DIR=/usr/local/ssl -DOPENSSL_LIBRARIES=/usr/local/ssl/lib
+ 
++find_package(OpenSSL REQUIRED)
++include_directories(${OpenSSL_INCLUDE_DIR})
++
++message("-- OPENSSL_INCLUDE_DIR: ${OpenSSL_INCLUDE_DIR}")
++
+ message("-- Building with SSL")
+ add_definitions("-DHAVE_SSL=1")
+ endif()
