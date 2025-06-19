@@ -20,6 +20,14 @@ class QuickfixConan(ConanFile):
 
     package_type = "library"
     settings = "os", "arch", "compiler", "build_type"
+
+    # # SCM to pull directly from GitHub
+    # scm = {
+    #     "type": "git",
+    #     "url": "https://github.com/quickfix/quickfix.git",
+    #     "revision": "master"
+    # }
+
     options = {
         "shared": [True, False],
         "fPIC": [True, False],
@@ -30,7 +38,7 @@ class QuickfixConan(ConanFile):
     default_options = {
         "shared": False,
         "fPIC": True,
-        "with_ssl": False,
+        "with_ssl": True,
         "with_postgres": False,
         "with_mysql": None,
     }
@@ -62,15 +70,16 @@ class QuickfixConan(ConanFile):
     def validate(self):
         if self.settings.os == "Windows" and self.options.shared:
             raise ConanInvalidConfiguration("QuickFIX cannot be built as shared lib on Windows")
-        if is_apple_os(self) and self.settings.arch == "armv8":
-            # See issue: https://github.com/quickfix/quickfix/issues/206
-            raise ConanInvalidConfiguration("QuickFIX doesn't support ARM compilation")
+        # if is_apple_os(self) and self.settings.arch == "armv8":
+        #     # See issue: https://github.com/quickfix/quickfix/issues/206
+        #     raise ConanInvalidConfiguration("QuickFIX doesn't support ARM compilation")
 
     def build_requirements(self):
         self.tool_requires("cmake/[>=3.16 <4]")
 
     def source(self):
         get(self, **self.conan_data["sources"][self.version], strip_root=True)
+        # self.run("cp -r /home/conan/src/quickfix ./")
 
     def generate(self):
         env = VirtualBuildEnv(self)
@@ -79,12 +88,14 @@ class QuickfixConan(ConanFile):
         tc.variables["HAVE_SSL"] = self.options.with_ssl
         tc.variables["HAVE_POSTGRESQL"] = self.options.with_postgres
         tc.variables["HAVE_MYSQL"] = bool(self.options.with_mysql)
+        if not self.options.shared:
+            tc.variables["QUICKFIX_SHARED_LIBS"] = "OFF"
         tc.generate()
-        tc = CMakeDeps(self)
-        tc.generate()
+        deps = CMakeDeps(self)
+        deps.generate()
 
     def build(self):
-        apply_conandata_patches(self)
+        # apply_conandata_patches(self)
         cmake = CMake(self)
         cmake.configure()
         cmake.build(target="quickfix")
