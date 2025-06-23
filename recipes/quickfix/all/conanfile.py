@@ -98,7 +98,7 @@ class QuickfixConan(ConanFile):
         # apply_conandata_patches(self)
         cmake = CMake(self)
         cmake.configure()
-        cmake.build(target="quickfix")
+        cmake.build(target="all")
 
     def package(self):
         cmake = CMake(self)
