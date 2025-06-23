@@ -1,7 +1,7 @@
 sources:
-  "2.0.2":
-    url: "https://github.com/the-higgs/quickfix/archive/refs/tags/v2.0.2.tar.gz"
-    sha256: "4a487d754fe7d7eb1d0f5c1bc2bceae1dd3b7785687d483453c00c79445d4c31"
+  "2.0.5":
+    url: "https://github.com/the-higgs/quickfix/archive/refs/tags/v2.0.5.tar.gz"
+    sha256: "064eaa21251ddbf0517916c4f4d70a7bc5a94439d706b09c6164db81d74c584d"
 # patches:
 #   "1.15.1":
 #     - patch_file: "patches/0001-Fix-build-for-C-17-replace-throw-.-with-EXCEPT.patch"

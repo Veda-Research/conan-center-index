@@ -12,22 +12,22 @@
 class Attributes : public FIX::DOMAttributes
 { };
 
-class Node : public FIX::DOMNode
-{
-public:
-  virtual ~Node(){ };
-private:
-  virtual SmartPtr<DOMNode> getFirstChildNode()
-  { Node * ptr; return SmartPtr<DOMNode>(ptr); }
-  virtual SmartPtr<DOMNode> getNextSiblingNode()
-  { Node * ptr; return SmartPtr<DOMNode>(ptr); }
-  virtual SmartPtr<FIX::DOMAttributes> getAttributes()
-  { Attributes * ptr; return SmartPtr<FIX::DOMAttributes>(ptr); }
-  virtual std::string getName()
-  { return ""; }
-  virtual std::string getText()
-  { return ""; }
-};
+// class Node : public FIX::DOMNode
+// {
+// public:
+//   virtual ~Node(){ };
+// private:
+//   virtual SmartPtr<DOMNode> getFirstChildNode()
+//   { Node * ptr; return SmartPtr<DOMNode>(ptr); }
+//   virtual SmartPtr<DOMNode> getNextSiblingNode()
+//   { Node * ptr; return SmartPtr<DOMNode>(ptr); }
+//   virtual SmartPtr<FIX::DOMAttributes> getAttributes()
+//   { Attributes * ptr; return SmartPtr<FIX::DOMAttributes>(ptr); }
+//   virtual std::string getName()
+//   { return ""; }
+//   virtual std::string getText()
+//   { return ""; }
+// };
 
 class Application
     : public FIX::Application
@@ -52,9 +52,9 @@ int main( int argc, char** argv )
 {
   try
   {
-    Node node;
+    // Node node;
     FIX::DataDictionaryProvider provider;
-    provider.addTransportDataDictionary( FIX::BeginString("FIX.4.2"), ptr::shared_ptr<FIX::DataDictionary>(new FIX::DataDictionary()) );
+    provider.addTransportDataDictionary( FIX::BeginString("FIX.4.2"), std::shared_ptr<FIX::DataDictionary>(new FIX::DataDictionary()) );
     Application application;
     FIX::SessionSettings settings( "" );
     FIX::FileStoreFactory storeFactory( settings );
